@@ -1,0 +1,35 @@
+#!/bin/bash
+
+set -o errexit
+set -o nounset
+set -o pipefail
+
+PUID=${PUID:-1099}
+PGID=${PGID:-1099}
+PNAME=${PNAME:-bob}
+PHOME="/data/home/${PNAME}"
+
+mkdir -p "/data/home"
+
+groupadd \
+    --gid "$PGID" \
+    "${PNAME}"
+
+useradd \
+    --home-dir "${PHOME}" \
+    --create-home \
+    --gid "${PNAME}" \
+    --uid "${PUID}" \
+    --shell "/bin/bash" \
+    "${PNAME}"
+
+echo "Added user -> $PNAME(uid:$(id -u "${PNAME}"), gid:$(id -g "${PNAME}"))"
+
+echo "Generating vnc passwd file @ ${PHOME}/.vnc/passwd"
+mkdir -p "${PHOME}/.vnc" &&
+  rm -f "${PHOME}/.vnc/passwd" &&
+  vncpasswd -f <<< "${VNC_PASSWORD}" > "${PHOME}/.vnc/passwd" &&
+  chown -R "${PNAME}:${PNAME}" "${PHOME}/.vnc" &&
+  chmod 600 "${PHOME}/.vnc/passwd"
+
+sudo -E -u "${PNAME}" /start-vnc.sh
