@@ -19,7 +19,7 @@ websockify \
   --web=/usr/share/novnc \
   "${NO_VNC_PORT}" \
   "localhost:${VNC_PORT}"
-  
+
 echo "Launching vncserver depth=${VNC_DEPTH}, geometry=${VNC_GEOMETRY}"
 vncserver \
   "${DISPLAY}" \

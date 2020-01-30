@@ -45,7 +45,8 @@ RUN apt-get -y install \
         wget \
         curl \
         chromium-browser \
-        firefox && \
+        firefox \
+        hextchat && \
     apt-get autoremove -y && \
     apt-get clean -y
 
