@@ -10,19 +10,20 @@ set -o pipefail
 
 export USER="$(id -u -n)"
 export HOME="$(eval echo ~$(id -u -n))"
+readonly vnc_port=$((5900+VNC_DISPLAY))
 
 echo "Running as $(id) with HOME=${HOME}, USER=${USER}"
 
-echo "Launching websockify on port ${NO_VNC_PORT}"
+echo "Launching websockify on port ${NO_VNC_PORT}->${vnc_port}"
 websockify \
   -D \
   --web=/usr/share/novnc \
   "${NO_VNC_PORT}" \
-  "localhost:${VNC_PORT}"
+  "localhost:${vnc_port}"
 
-echo "Launching vncserver depth=${VNC_DEPTH}, geometry=${VNC_GEOMETRY}"
+echo "Launching vncserver :${VNC_DISPLAY} depth=${VNC_DEPTH}, geometry=${VNC_GEOMETRY}"
 vncserver \
-  "${DISPLAY}" \
+  ":${VNC_DISPLAY}" \
   -depth "${VNC_DEPTH}" \
   -geometry "${VNC_GEOMETRY}" \
   -localhost no \

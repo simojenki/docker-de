@@ -3,9 +3,8 @@ FROM ubuntu:18.04
 MAINTAINER simojenki
 
 ENV DEBIAN_FRONTEND=noninteractive \
-    DISPLAY=:1 \
     TERM=xterm \
-    VNC_PORT=5901 \
+    VNC_DISPLAY=1 \
     NO_VNC_PORT=6901 \
     VNC_DEPTH=24 \
     VNC_GEOMETRY=1920x1080 \
