@@ -38,17 +38,6 @@ ENV LANG='en_US.UTF-8' \
     LANGUAGE='en_US:en' \
     LC_ALL='en_US.UTF-8'
 
-RUN apt-get -y install \
-        vim \
-        net-tools \
-        wget \
-        curl \
-        chromium-browser \
-        firefox \
-        hexchat && \
-    apt-get autoremove -y && \
-    apt-get clean -y
-
 ADD src /
 
 ENTRYPOINT ["/init"]
