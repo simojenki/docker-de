@@ -11,19 +11,20 @@ PHOME="/data/home/${PNAME}"
 
 mkdir -p "/data/home"
 
-groupadd \
+id "${PNAME}" &>/dev/null || ( \
+  groupadd \
     --gid "$PGID" \
-    "${PNAME}"
-
-useradd \
+    "${PNAME}" && \
+  useradd \
     --home-dir "${PHOME}" \
     --create-home \
     --gid "${PNAME}" \
     --uid "${PUID}" \
     --shell "/bin/bash" \
-    "${PNAME}"
+    "${PNAME}" \
+  )
 
-echo "Added user -> $PNAME(uid:$(id -u "${PNAME}"), gid:$(id -g "${PNAME}"))"
+echo "User -> $PNAME(uid:$(id -u "${PNAME}"), gid:$(id -g "${PNAME}"))"
 
 echo "Generating vnc passwd file @ ${PHOME}/.vnc/passwd"
 mkdir -p "${PHOME}/.vnc" &&
