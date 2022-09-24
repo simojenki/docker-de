@@ -7,9 +7,9 @@ set -o pipefail
 PUID=${PUID:-1099}
 PGID=${PGID:-1099}
 PNAME=${PNAME:-bob}
-PHOME="/data/home/${PNAME}"
-
-mkdir -p "/data/home"
+PHOME=${PHOME:-"/home/${PNAME}"}
+VNC_PASSWORD=${VNC_PASSWORD:-$(echo $RANDOM | md5sum | head -c 20; echo;)}
+PKGS=${PKGS:-}
 
 id "${PNAME}" &>/dev/null || ( \
   groupadd \
@@ -26,11 +26,15 @@ id "${PNAME}" &>/dev/null || ( \
 
 echo "User -> $PNAME(uid:$(id -u "${PNAME}"), gid:$(id -g "${PNAME}"))"
 
-echo "Generating vnc passwd file @ ${PHOME}/.vnc/passwd"
-mkdir -p "${PHOME}/.vnc" &&
-  rm -f "${PHOME}/.vnc/passwd" &&
-  vncpasswd -f <<< "${VNC_PASSWORD}" > "${PHOME}/.vnc/passwd" &&
-  chown -R "${PNAME}:${PNAME}" "${PHOME}/.vnc" &&
-  chmod 600 "${PHOME}/.vnc/passwd"
+mkdir -p "${PHOME}/.vnc" 
+
+rm -f "${PHOME}/.vnc/passwd" && vncpasswd -f <<< "${VNC_PASSWORD}" > "${PHOME}/.vnc/passwd"
+chmod 600 "${PHOME}/.vnc/passwd"
+chown -R "${PNAME}:${PNAME}" "${PHOME}/.vnc"
+
+if [ "${PKGS}" != "" ]; then
+  apt-get update
+  echo "${PKGS}" | xargs apt-get install -y
+fi
 
 sudo -E -u "${PNAME}" /start-vnc.sh

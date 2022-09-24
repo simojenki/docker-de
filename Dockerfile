@@ -1,37 +1,33 @@
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 
-MAINTAINER simojenki
+LABEL maintainer="simojenki"
 
 ENV DEBIAN_FRONTEND=noninteractive \
     TERM=xterm \
     VNC_DISPLAY=1 \
-    NO_VNC_PORT=6901 \
     VNC_DEPTH=24 \
     VNC_GEOMETRY=1920x1080 \
     VNC_PASSWORD=password
 
-EXPOSE $VNC_PORT $NO_VNC_PORT
-
 RUN apt-get update && \
-    apt-get -y install \
+    apt-get install -y \
         sudo \
         locales \
         tigervnc-standalone-server \
         tigervnc-xorg-extension \
         tigervnc-viewer \
-        novnc \
-        websockify \
-        python-numpy \
         xfonts-base \
         xfonts-100dpi \
         xfonts-75dpi \
-        xfce4 \
-        xfce4-goodies \
-        xfce4-terminal \
-        xterm && \
-    apt-get purge -y pm-utils xscreensaver* && \
+        lxde-core  \
+        xterm \
+        vim && \
+    apt-get purge -y \
+        pm-utils \
+        xscreensaver* && \
     apt-get autoremove -y && \
     apt-get clean -y && \
+    rm -rf /var/lib/apt/lists/* && \
     locale-gen 'en_US.UTF-8'
 
 ENV LANG='en_US.UTF-8' \
