@@ -18,12 +18,12 @@ jobs:
       - 
         name: Check out the repo
         uses: actions/checkout@v2
-      -
-        name: Docker meta
-        id: meta
-        uses: docker/metadata-action@v3
-        with:
-          images: simojenki/de
+      # -
+      #   name: Docker meta
+      #   id: meta
+      #   uses: docker/metadata-action@v3
+      #   with:
+      #     images: simojenki/de
       -
         name: Login to DockerHub
         if: github.event_name != 'pull_request'
@@ -37,5 +37,4 @@ jobs:
         with:
           context: .
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: simojenki/de:latest
