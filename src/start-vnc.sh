@@ -21,7 +21,7 @@ xrdb ${HOME}/.Xresources
 xsetroot -solid grey
 startlxde
 END
-chmod 500 "${HOME}/.vnc/xstartup"
+chmod 700 "${HOME}/.vnc/xstartup"
 
 touch "${HOME}/.Xauthority" "${HOME}/.Xresources"
 
