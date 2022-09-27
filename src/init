@@ -30,6 +30,16 @@ mkdir -p "${PHOME}/.vnc"
 
 rm -f "${PHOME}/.vnc/passwd" && vncpasswd -f <<< "${VNC_PASSWORD}" > "${PHOME}/.vnc/passwd"
 chmod 600 "${PHOME}/.vnc/passwd"
+
+cat << END > "${PHOME}/.vnc/xstartup"
+#!/bin/bash
+
+xrdb ${PHOME}/.Xresources
+xsetroot -solid grey
+startlxde
+END
+chmod 755 "${PHOME}/.vnc/xstartup"
+
 chown -R "${PNAME}:${PNAME}" "${PHOME}/.vnc"
 
 if [ "${PKGS}" != "" ]; then
