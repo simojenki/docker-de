@@ -23,6 +23,7 @@ RUN apt-get update && \
         xterm \
         vim && \
     apt-get purge -y \
+        light-locker \
         pm-utils \
         xscreensaver* && \
     apt-get autoremove -y && \
