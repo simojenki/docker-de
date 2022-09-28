@@ -14,6 +14,8 @@ run: image
 
 	docker run \
 		-it \
+		--rm \
+		--name de \
 		-p 127.0.0.1:5901:5901 \
 		-e PUID=$(shell id -u) \
 		-e PGID=$(shell id -g) \

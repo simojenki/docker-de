@@ -11,15 +11,17 @@ ENV DEBIAN_FRONTEND=noninteractive \
 
 RUN apt-get update && \
     apt-get install -y \
-        sudo \
+        inetutils-ping \
+        iproute2 \
         locales \
+        lxde-core  \
+        sudo \
         tigervnc-standalone-server \
         tigervnc-xorg-extension \
         tigervnc-viewer \
         xfonts-base \
         xfonts-100dpi \
         xfonts-75dpi \
-        lxde-core  \
         xterm \
         vim && \
     apt-get purge -y \
