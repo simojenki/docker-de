@@ -41,6 +41,7 @@ END
 chmod 755 "${PHOME}/.vnc/xstartup"
 
 chown -R "${PNAME}:${PNAME}" "${PHOME}/.vnc"
+chown "${PNAME}:${PNAME}" "${PHOME}"
 
 if [ "${PKGS}" != "" ]; then
   apt-get update
