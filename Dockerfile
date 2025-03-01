@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM debian:bookworm
 
 LABEL maintainer="simojenki"
 
@@ -31,7 +31,8 @@ RUN apt-get update && \
     apt-get autoremove -y && \
     apt-get clean -y && \
     rm -rf /var/lib/apt/lists/* && \
-    locale-gen 'en_US.UTF-8'
+    sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen && \
+    locale-gen
 
 ENV LANG='en_US.UTF-8' \
     LANGUAGE='en_US:en' \
